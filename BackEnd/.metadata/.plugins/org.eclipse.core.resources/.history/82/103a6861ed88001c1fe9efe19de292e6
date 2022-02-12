@@ -1,0 +1,25 @@
+package dao;
+
+import java.util.List;
+
+import model.login_cadastro;
+
+public interface login_crud {
+	
+	public static void create(login_cadastro login) {};
+	
+	
+	public static void delete(int login_cadastroId) {};
+	
+	
+	public static List<login_cadastro> find(String Search){return null;}
+	
+	
+	public static login_cadastro findByPk(int login_cadastroId) {return null;}
+	
+	
+	public static void update(login_cadastro login) {};
+	
+	
+
+}

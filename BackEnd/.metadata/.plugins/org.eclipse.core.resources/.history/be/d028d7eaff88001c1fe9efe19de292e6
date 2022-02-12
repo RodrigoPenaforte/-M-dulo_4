@@ -1,0 +1,121 @@
+package dao;
+
+import java.sql.Connection;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import db.MySqlConnection;
+import
+
+
+public class pagamento_voo{
+	
+	
+	private static Connection connection = MySqlConnection.createConnection();
+	private static String sql;
+	private String getPreco_Viagem;
+
+	
+	public static void create(pagamento_voo pagamento) {
+		String sql = "INSERT INTO pagamento (cartao,parcela, pix, preco_viagem )" + "VALUES(?,?,?,?)";
+		
+		try {
+			 PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			 
+			 preparedStatement.setInt(1, pagamento.getCartao());
+			 preparedStatement.setString(2, pagamento.getParcela());
+			 preparedStatement.setInt(3, pagamento.getPix());
+			 preparedStatement.setInt(4, pagamento.getPreco_Viagem());
+			 
+			 System.out.println("--correct insert on database");
+			 
+		 } catch(SQLException e) {
+			 System.out.println("--incorrect insert on database. " + e.getMessage());
+		 }
+	}
+		
+	
+	
+	
+
+
+	public static void delete(int pagamento_vooId) {
+		
+		sql = "DELETE FROM pagamento WHERE id = ?";
+		
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			
+			preparedStatement.setInt(1, pagamento_vooId);
+			preparedStatement.executeUpdate();
+			
+			System.out.println("--correct delete on pagamento");
+			
+		} catch (SQLException e) {
+			System.out.println("--incorrect delete on pagamento. " + e.getMessage());
+		}
+	};
+	
+	
+	
+	
+	
+	public static pagamento_voo findByPk(int pagamento_vooId) {
+		
+		
+		sql = String.format("SELECT * FROM pagamento WHERE id = %d ", pagamento_vooId);
+		
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			pagamento_voo pagamento = new pagamento_voo();
+			
+			while (resultSet.next()) {
+				pagamento.setId(resultSet.getInt("id"));
+				pagamento.setCartao(resultSet.getString("cartao"));
+				pagamento.setParcela(resultSet.getString("parcela"));
+				pagamento.setPix(resultSet.getString("pix"));
+				pagamento.setPreco_viagem(resultSet.getString("preco_viagem"));
+
+				
+			}
+			
+			System.out.println("--correct find by pk pagamento");
+			return pagamento;
+			
+	} catch(SQLException e) {
+		
+			System.out.println("--incorrect find by pk pagamento. " + e.getMessage());
+			return null;}
+		
+		
+	}
+		
+	
+	
+	public static void update(pagamento_voo pagamento) {
+		
+		
+		sql = "UPDATE clientes SET cartao=?, parcela=?, pix=?, preco_viagem=? WHERE id=?";
+		 
+		 try {
+			 PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			 
+			 preparedStatement.setString(1, pagamento.getNome());
+			 preparedStatement.setString(2, pagamento.getCpf());
+			 preparedStatement.setInt(3, pagamento.getId());
+			 
+			 preparedStatement.executeUpdate();
+			 
+			 System.out.println("--correct update on database");
+			 
+		 } catch(SQLException e) {
+			 System.out.println("--incorrect update on database. " + e.getMessage());
+		 }
+	}
+		
+		

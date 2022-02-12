@@ -1,0 +1,52 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
+
+import db.MySqlConnection;
+import model.login_cadastro;
+
+public class login_dao_metodo implements login_crud{
+	
+	
+	private static Connection connection = MySqlConnection.createConnection();
+	private static String sql;
+
+	
+	public static void create(login_cadastro login) {
+		String sql = "INSERT INTO login (nome, cpf)" + "VALUES(?,?)";
+		
+		try {
+			 PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			 
+			 preparedStatement.setString(1, login.getNome());
+			 preparedStatement.setString(2, login.getCpf());
+	
+			 preparedStatement.executeUpdate();
+			 
+			 System.out.println("--correct insert on database");
+			 
+		 } catch(SQLException e) {
+			 System.out.println("--incorrect insert on database. " + e.getMessage());
+		 }
+	}
+		
+	
+	
+	
+	public static void delete(int login_cadastroId) {};
+	
+	
+	public static List<login_cadastro> find(String Search){return null;}
+	
+	
+	public static login_cadastro findByPk(int login_cadastroId) {return null;}
+	
+	
+	public static void update(login_cadastro login) {};
+	
+	
+
+}
